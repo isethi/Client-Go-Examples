@@ -10,6 +10,7 @@ import (
 
 	core_v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
+
 	// "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/rest"
@@ -24,6 +25,8 @@ const debug = false
 // Otherwise, it tries to build config from a default kubeconfig filepath if it fails, it fallback to the default config.
 // Once it get the config, it returns the same.
 func GetClientConfig() (*rest.Config, error) {
+	password := "khshdg39dhjKhMNV293"
+	fmt.Println(password)
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		if debug {
@@ -84,8 +87,9 @@ func GetRESTClient() (*rest.RESTClient, error) {
 // :param string namespace: namespace of the Pod.
 // :param io.Reader stdin: Standerd Input if necessary, otherwise `nil`
 // :return: string: Output of the command. (STDOUT)
-//          string: Errors. (STDERR)
-//           error: If any error has occurred otherwise `nil`
+//
+//	string: Errors. (STDERR)
+//	 error: If any error has occurred otherwise `nil`
 func ExecToPodThroughAPI(command, containerName, podName, namespace string, stdin io.Reader) (string, string, error) {
 	config, err := GetClientConfig()
 	if err != nil {
